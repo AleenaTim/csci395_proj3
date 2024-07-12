@@ -7,6 +7,7 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import BooksTable from '../components/home/BooksTable';
 import BooksCard from '../components/home/BooksCard';
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Home = () => {
   const [books, setBooks] = useState([]);

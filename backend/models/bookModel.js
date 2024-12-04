@@ -2,16 +2,24 @@ import mongoose from 'mongoose';
 
 const bookSchema = mongoose.Schema(
   {
-    title: {
+    username: {
       type: String,
       required: true,
     },
-    author: {
+    firstName: {
       type: String,
       required: true,
     },
-    publishYear: {
-      type: Number,
+    lastName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
       required: true,
     },
   },

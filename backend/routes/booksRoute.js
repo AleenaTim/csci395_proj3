@@ -7,18 +7,22 @@ const router = express.Router();
 router.post('/', async (request, response) => {
   try {
     if (
-      !request.body.title ||
-      !request.body.author ||
-      !request.body.publishYear
+      !request.body.username ||
+      !request.body.firstName ||
+      !request.body.lastName ||
+      !request.body.email ||
+      !request.body.password
     ) {
       return response.status(400).send({
-        message: 'Send all required fields: title, author, publishYear',
+        message: 'Send all required fields',
       });
     }
     const newBook = {
-      title: request.body.title,
-      author: request.body.author,
-      publishYear: request.body.publishYear,
+      username: request.body.username,
+      firstName: request.body.firstName,
+      lastName: request.body.lastName,
+      email: request.body.email,
+      password: request.body.password,
     };
 
     const book = await Book.create(newBook);
@@ -63,9 +67,11 @@ router.get('/:id', async (request, response) => {
 router.put('/:id', async (request, response) => {
   try {
     if (
-      !request.body.title ||
-      !request.body.author ||
-      !request.body.publishYear
+      !request.body.username ||
+      !request.body.firstName ||
+      !request.body.lastName ||
+      !request.body.email ||
+      !request.body.password
     ) {
       return response.status(400).send({
         message: 'Send all required fields: title, author, publishYear',
@@ -104,5 +110,6 @@ router.delete('/:id', async (request, response) => {
     response.status(500).send({ message: error.message });
   }
 });
+
 
 export default router;

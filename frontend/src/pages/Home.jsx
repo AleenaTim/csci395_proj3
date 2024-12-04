@@ -1,64 +1,76 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import Spinner from '../components/Spinner';
-import { Link } from 'react-router-dom';
-import { AiOutlineEdit } from 'react-icons/ai';
-import { BsInfoCircle } from 'react-icons/bs';
-import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
-import BooksTable from '../components/home/BooksTable';
-import BooksCard from '../components/home/BooksCard';
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
-const Home = () => {
-  const [books, setBooks] = useState([]);
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showType, setShowType] = useState('table');
 
-  useEffect(() => {
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleLogin = () => {
+    const data = {
+      username,
+      password,
+    };
+
     setLoading(true);
     axios
-      .get('http://localhost:5555/books')
+      .post('http://localhost:5555/login', data)
       .then((response) => {
-        setBooks(response.data.data);
         setLoading(false);
+
+        // Save token or user details if provided by the backend
+        localStorage.setItem('token', response.data.token);
+
+        enqueueSnackbar('Login successful!', { variant: 'success' });
+        navigate('/dashboard'); // Redirect to a protected route
       })
       .catch((error) => {
-        console.log(error);
         setLoading(false);
+        enqueueSnackbar('Invalid username or password', { variant: 'error' });
+        console.error('Login error:', error);
       });
-  }, []);
+  };
 
   return (
-    <div className='p-4'>
-      <div className='flex justify-center items-center gap-x-4'>
-        <button
-          className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg'
-          onClick={() => setShowType('table')}
-        >
-          Table
-        </button>
-        <button
-          className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg'
-          onClick={() => setShowType('card')}
-        >
-          Card
+    <div className="p-4">
+      <h1 className="text-3xl my-4">Login</h1>
+      {loading ? <Spinner /> : ''}
+      <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
+        <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="border-2 border-gray-500 px-4 py-2 w-full"
+          />
+        </div>
+        <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border-2 border-gray-500 px-4 py-2 w-full"
+          />
+        </div>
+        <button className="p-2 bg-sky-300 m-8" onClick={handleLogin}>
+          Login
         </button>
       </div>
-      <div className='flex justify-between items-center'>
-        <h1 className='text-3xl my-8'>Books List</h1>
-        <Link to='/books/create'>
-          <MdOutlineAddBox className='text-sky-800 text-4xl' />
-        </Link>
+      <div className="text-center mt-4">
+        <p>
+          Don't have an account? <a href="/books/create" className="text-blue-500">Sign Up</a>
+        </p>
       </div>
-      {loading ? (
-        <Spinner />
-      ) : showType === 'table' ? (
-        <BooksTable books={books} />
-      ) : (
-        <BooksCard books={books} />
-      )}
     </div>
   );
 };
 
-export default Home;
+export default Login;

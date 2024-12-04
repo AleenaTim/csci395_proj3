@@ -10,7 +10,7 @@
     "build": "npm i"
   },
   "keywords": [],
-  "author": "MamadTaheri68",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",

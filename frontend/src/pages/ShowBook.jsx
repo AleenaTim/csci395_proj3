@@ -36,25 +36,33 @@ const ShowBook = () => {
             <span>{book._id}</span>
           </div>
           <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Title</span>
-            <span>{book.title}</span>
+            <span className='text-xl mr-4 text-gray-500'>Username</span>
+            <span>{book.username}</span>
           </div>
           <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Author</span>
-            <span>{book.author}</span>
+            <span className='text-xl mr-4 text-gray-500'>First Name</span>
+            <span>{book.firstName}</span>
           </div>
           <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Publish Year</span>
-            <span>{book.publishYear}</span>
+            <span className='text-xl mr-4 text-gray-500'>Last Name</span>
+            <span>{book.lastName}</span>
           </div>
           <div className='my-4'>
+            <span className='text-xl mr-4 text-gray-500'>Email</span>
+            <span>{book.email}</span>
+          </div>
+          <div className='my-4'>
+            <span className='text-xl mr-4 text-gray-500'>Password</span>
+            <span>{book.password}</span>
+          </div>
+          {/* <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>Create Time</span>
             <span>{new Date(book.createdAt).toString()}</span>
           </div>
           <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>Last Update Time</span>
             <span>{new Date(book.updatedAt).toString()}</span>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

@@ -23,7 +23,7 @@ app.use(cors());
 
 app.get('/', (request, response) => {
   console.log(request);
-  return response.status(234).send('Welcome To MERN Stack Tutorial');
+  return response.status(234).send('');
 });
 
 app.use('/books', booksRoute);
@@ -39,3 +39,32 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
+
+  app.post('/login', async (request, response) => {
+    try {
+      console.log('Request body:', request.body); // Log incoming request body
+      const { username, password } = request.body;
+  
+      // Validate inputs
+      if (!username || !password) {
+        return response.status(400).json({ error: 'Username and password are required' });
+      }
+  
+      // Query database
+      const user = await User.findOne({ username, password }); // This assumes username/password are plain text
+      if (!user) {
+        return response.status(401).json({ error: 'Invalid username or password' });
+      }
+  
+      // Send successful response
+      response.json({
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      });
+    } catch (error) {
+      console.error('Error during login:', error); // Log error
+      response.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  

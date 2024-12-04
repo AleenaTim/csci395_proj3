@@ -13,20 +13,17 @@ const Login = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleLogin = () => {
-    const data = {
-      username,
-      password,
-    };
-
+    const data = { username, password };
+  
     setLoading(true);
     axios
       .post('http://localhost:5555/login', data)
       .then((response) => {
         setLoading(false);
-
-        // Save token or user details if provided by the backend
-        localStorage.setItem('token', response.data.token);
-
+  
+        // Save user details to localStorage
+        localStorage.setItem('user', JSON.stringify(response.data));
+  
         enqueueSnackbar('Login successful!', { variant: 'success' });
         navigate('/dashboard'); // Redirect to a protected route
       })
@@ -36,6 +33,7 @@ const Login = () => {
         console.error('Login error:', error);
       });
   };
+  
 
   return (
     <div className="p-4">
